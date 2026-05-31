@@ -1,19 +1,19 @@
-import CustomerFactory from "../../../domain/customer/factory/customer.factory";
-import Address from "../../../domain/customer/value-object/address";
-import UpdateCustomerUseCase from "./update.customer.usecase";
+import CustomerFactory from '../../../domain/customer/factory/customer.factory';
+import Address from '../../../domain/customer/value-object/address';
+import UpdateCustomerUseCase from './update.customer.usecase';
 const customer = CustomerFactory.createWithAddress(
-  "John",
-  new Address("Street", 123, "Zip", "City")
+  'John',
+  new Address('Street', 123, 'Zip', 'City'),
 );
 
 const input = {
   id: customer.id,
-  name: "John Updated",
+  name: 'John Updated',
   address: {
-    street: "Street Updated",
+    street: 'Street Updated',
     number: 1234,
-    zip: "Zip Updated",
-    city: "City Updated",
+    zip: 'Zip Updated',
+    city: 'City Updated',
   },
 };
 
@@ -26,8 +26,8 @@ const MockRepository = () => {
   };
 };
 
-describe("Unit test for customer update use case", () => {
-  it("should update a customer", async () => {
+describe('Unit test for customer update use case', () => {
+  it('should update a customer', async () => {
     const customerRepository = MockRepository();
     const customerUpdateUseCase = new UpdateCustomerUseCase(customerRepository);
 
@@ -35,4 +35,23 @@ describe("Unit test for customer update use case", () => {
 
     expect(output).toEqual(input);
   });
+
+  // it('should throw an error when customer not found', async () => {
+  //   const customerRepository = MockRepository();
+  //   customerRepository.find.mockReturnValue(Promise.resolve(null));
+  //   const customerUpdateUseCase = new UpdateCustomerUseCase(customerRepository);
+
+  //   const output = customerUpdateUseCase.execute({
+  //     id: 'invalid_id',
+  //     name: 'John Updated',
+  //     address: {
+  //       street: 'Street Updated',
+  //       number: 1234,
+  //       zip: 'Zip Updated',
+  //       city: 'City Updated',
+  //     },
+  //   });
+
+  //   expect(output).rejects.toThrow("Customer not found");
+  // });
 });
