@@ -1,6 +1,6 @@
-import Product from "../../../../domain/product/entity/product";
-import ProductRepositoryInterface from "../../../../domain/product/repository/product-repository.interface";
-import ProductModel from "./product.model";
+import Product from '../../../../domain/product/entity/product';
+import ProductRepositoryInterface from '../../../../domain/product/repository/product-repository.interface';
+import ProductModel from './product.model';
 
 export default class ProductRepository implements ProductRepositoryInterface {
   async create(entity: Product): Promise<void> {
@@ -21,19 +21,28 @@ export default class ProductRepository implements ProductRepositoryInterface {
         where: {
           id: entity.id,
         },
-      }
+      },
     );
   }
 
   async find(id: string): Promise<Product> {
-    const productModel = await ProductModel.findOne({ where: { id } });
-    return new Product(productModel.id, productModel.name, productModel.price);
+    try {
+      const productModel = await ProductModel.findOne({ where: { id } });
+      return new Product(
+        productModel.id,
+        productModel.name,
+        productModel.price,
+      );
+    } catch {
+      throw new Error('Product not found');
+    }
   }
 
   async findAll(): Promise<Product[]> {
     const productModels = await ProductModel.findAll();
-    return productModels.map((productModel) =>
-      new Product(productModel.id, productModel.name, productModel.price)
+    return productModels.map(
+      (productModel) =>
+        new Product(productModel.id, productModel.name, productModel.price),
     );
   }
 }
