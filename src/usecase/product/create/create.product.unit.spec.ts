@@ -1,9 +1,15 @@
+import { InputCreateProductDto } from './create.product.dto';
 import CreateProductUseCase from './create.product.usecase';
-const input = {
-  type: 'a',
-  name: 'Trionda - Bola da Copa do Mundo 2026',
-  price: 100,
-};
+
+let input: InputCreateProductDto;
+
+beforeEach(() => {
+  input = {
+    type: 'a',
+    name: 'Trionda - Bola da Copa do Mundo 2026',
+    price: 100,
+  };
+});
 
 const MockRepository = () => {
   return {
