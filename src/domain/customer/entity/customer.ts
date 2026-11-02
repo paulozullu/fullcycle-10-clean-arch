@@ -1,10 +1,10 @@
-import Entity from "../../@shared/entity/entity.abstract";
-import Address from "../value-object/address";
-import NotificationError from "../../@shared/notification/notification.error";
-import CustomerValidatorFactory from "../factory/customer.validator.factory";
+import Entity from '../../@shared/entity/entity.abstract';
+import Address from '../value-object/address';
+import NotificationError from '../../@shared/notification/notification.error';
+import CustomerValidatorFactory from '../factory/customer.validator.factory';
 
 export default class Customer extends Entity {
-  private _name: string = "";
+  private _name: string = '';
   private _address!: Address;
   private _active: boolean = false;
   private _rewardPoints: number = 0;
@@ -28,7 +28,20 @@ export default class Customer extends Entity {
   }
 
   validate() {
-    CustomerValidatorFactory.create().validate(this);
+    // CustomerValidatorFactory.create().validate(this);
+    if (this.id.length === 0) {
+      this.notification.addError({
+        context: 'customer',
+        message: 'Id is required',
+      });
+    }
+
+    if (this._name.length === 0) {
+      this.notification.addError({
+        context: 'customer',
+        message: 'Name is required',
+      });
+    }
   }
 
   changeName(name: string) {
@@ -50,7 +63,7 @@ export default class Customer extends Entity {
 
   activate() {
     if (this._address === undefined) {
-      throw new Error("Address is mandatory to activate a customer");
+      throw new Error('Address is mandatory to activate a customer');
     }
     this._active = true;
   }
